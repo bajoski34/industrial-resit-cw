@@ -3,17 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Store Application</title>
+    <title>Book Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, button {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Book Store</h1>
 
-    <h3>From this list of actions</h3>
-    <ul>
-        <li><a href="#" class="action">Edit Book</a></li>
-        <li><a href="#" class="action">Add Book</a></li>
-        <li><a href="#" class="action">Remove Book</a></li>
-        <li><a href="#" class="action">Book Search</a></li>
-    </ul>
+    <h1>Book Management System</h1>
+
+    <!-- Authors Section -->
+    <section>
+        <h2>Authors</h2>
+        <div class="form-group">
+            <label for="authorFirstName">First Name:</label>
+            <input type="text" id="authorFirstName">
+        </div>
+        <div class="form-group">
+            <label for="authorLastName">Last Name:</label>
+            <input type="text" id="authorLastName">
+        </div>
+        <button onclick="createAuthor()">Create Author</button>
+        <button onclick="fetchAuthors()">Fetch Authors</button>
+        <pre id="authorsResult"></pre>
+    </section>
+
+    <!-- Books Section -->
+    <section>
+        <h2>Books</h2>
+        <div class="form-group">
+            <label for="bookTitle">Title:</label>
+            <input type="text" id="bookTitle">
+        </div>
+        <div class="form-group">
+            <label for="bookAuthorId">Author ID:</label>
+            <input type="number" id="bookAuthorId">
+        </div>
+        <div class="form-group">
+            <label for="bookPublisher">Publisher:</label>
+            <input type="text" id="bookPublisher">
+        </div>
+        <div class="form-group">
+            <label for="bookPublicationDate">Publication Date:</label>
+            <input type="date" id="bookPublicationDate">
+        </div>
+        <div class="form-group">
+            <label for="bookSubject">Subject:</label>
+            <input type="text" id="bookSubject">
+        </div>
+        <div class="form-group">
+            <label for="bookUnitPrize">Unit Prize:</label>
+            <input type="number" id="bookUnitPrize">
+        </div>
+        <button onclick="createBook()">Create Book</button>
+        <button onclick="fetchBooks()">Fetch Books</button>
+        <pre id="booksResult"></pre>
+    </section>
+
+    <!-- Customers Section -->
+    <section>
+        <h2>Customers</h2>
+        <div class="form-group">
+            <label for="customerName">Name:</label>
+            <input type="text" id="customerName">
+        </div>
+        <div class="form-group">
+            <label for="customerAddress">Address:</label>
+            <input type="text" id="customerAddress">
+        </div>
+        <button onclick="createCustomer()">Create Customer</button>
+        <button onclick="fetchCustomers()">Fetch Customers</button>
+        <pre id="customersResult"></pre>
+    </section>
+
+    <!-- Reservations Section -->
+    <section>
+        <h2>Reservations</h2>
+        <div class="form-group">
+            <label for="reservationCustomerId">Customer ID:</label>
+            <input type="number" id="reservationCustomerId">
+        </div>
+        <div class="form-group">
+            <label for="reservationBookId">Book ID:</label>
+            <input type="number" id="reservationBookId">
+        </div>
+        <div class="form-group">
+            <label for="reservationQuantity">Quantity:</label>
+            <input type="number" id="reservationQuantity">
+        </div>
+        <button onclick="createReservation()">Create Reservation</button>
+        <button onclick="fetchReservations()">Fetch Reservations</button>
+        <pre id="reservationsResult"></pre>
+    </section>
+
+    <script>
+        const apiBaseUrl = 'http://localhost:8000';
+
+        async function createAuthor() {
+            const firstName = document.getElementById('authorFirstName').value;
+            const lastName = document.getElementById('authorLastName').value;
+            const response = await fetch(`${apiBaseUrl}/authors`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ first_name: firstName, last_name: lastName })
+            });
+            const result = await response.json();
+            document.getElementById('authorsResult').innerText = JSON.stringify(result, null, 2);
+        }
+
+        async function fetchAuthors() {
+            const response = await fetch(`${apiBaseUrl}/authors`);
+            const result = await response.json();
+            document.getElementById('authorsResult').innerText = JSON.stringify(result, null, 2);
+        }
+
+        async function createBook() {
+            const title = document.getElementById('bookTitle').value;
+            const authorId = document.getElementById('bookAuthorId').value;
+            const publisher = document.getElementById('bookPublisher').value;
+            const publicationDate = document.getElementById('bookPublicationDate').value;
+            const subject = document.getElementById('bookSubject').value;
+            const unitPrize = document.getElementById('bookUnitPrize').value;
+            const response = await fetch(`${apiBaseUrl}/books`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, author_id: authorId, publisher, publication_date: publicationDate, subject, unit_prize: unitPrize, stock: 1 })
+            });
+            const result = await response.json();
+            document.getElementById('booksResult').innerText = JSON.stringify(result, null, 2);
+        }
+
+        async function fetchBooks() {
+            const response = await fetch(`${apiBaseUrl}/books`);
+            const result = await response.json();
+            document.getElementById('booksResult').innerText = JSON.stringify(result, null, 2);
+        }
+
+        async function createCustomer() {
+            const name = document.getElementById('customerName').value;
+            const address = document.getElementById('customerAddress').value;
+            const response = await fetch(`${apiBaseUrl}/customers`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, address })
+            });
+            const result = await response.json();
+            document.getElementById('customersResult').innerText = JSON.stringify(result, null, 2);
+        }
+
+        async function fetchCustomers() {
+            const response = await fetch(`${apiBaseUrl}/customers`);
+            const result = await response.json();
+            document.getElementById('customersResult').innerText = JSON.stringify(result, null, 2);
+        }
+
+        async function createReservation() {
+            const customerId = document.getElementById('reservationCustomerId').value;
+            const bookId = document.getElementById('reservationBookId').value;
+            const quantity = document.getElementById('reservationQuantity').value;
+            const response = await fetch(`${apiBaseUrl}/reservations`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ customer_id: customerId, book_id: bookId, quantity })
+            });
+            const result = await response.json();
+            document.getElementById('reservationsResult').innerText = JSON.stringify(result, null, 2);
+        }
+
+        async function fetchReservations() {
+            const response = await fetch(`${apiBaseUrl}/reservations`);
+            const result = await response.json();
+            document.getElementById('reservationsResult').innerText = JSON.stringify(result, null, 2);
+        }
+    </script>
 </body>
 </html>

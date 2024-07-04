@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Library System</h1>
+
+    <h2>Books Summary</h2>
+    <div id="books-summary">
+        <!-- Summary will be displayed here -->
+    </div>
+
+    <script>
+        const apiBaseUrl = 'https://8000-bajoski34-industrialres-w7n4xxtpp9e.ws-eu115.gitpod.io';
+        $(document).ready(function() {
+            // Fetch and display the summary of books
+            $.get(`${apiBaseUrl}/books/summary`, function(data) {
+                var summary = data.data;
+                var summaryHtml = `<p>Total Books: ${summary.book_count}</p>
+                    <p>Books Per Subject:</p>
+                    <ul>`;
+                summary.books_per_subject.forEach(function(subject) {
+                    summaryHtml += `<li>${subject.B_SUBJECT}: ${subject.subject_count}</li>`;
+                });
+                summaryHtml += `</ul>
+                    <p>Publication Dates: ${summary.publication_dates.oldest_date} to ${summary.publication_dates.newest_date}</p>
+                    <p>Price Range: $${summary.price_range.min_price} to $${summary.price_range.max_price}</p>
+                    <p>Average Price: $${summary.avg_price.toFixed(2)}</p>`;
+                $("#books-summary").html(summaryHtml);
+            });
+        });
+    </script>
+</body>
+</html>

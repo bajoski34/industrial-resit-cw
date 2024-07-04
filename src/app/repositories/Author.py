@@ -23,7 +23,7 @@ class AuthorRepository():
     def find(self, author_id):
         with self.connection.cursor() as cursor:
             # Read a single record
-            sql = "SELECT * FROM `author` WHERE `A_ID`=%s LIMIT=1"
+            sql = "SELECT * FROM `authors` WHERE `A_ID`=%s LIMIT=1"
             cursor.execute(sql, (author_id,))
             result = cursor.fetchone()
             return result
@@ -31,7 +31,7 @@ class AuthorRepository():
     def findByName(self, author_name):
         with self.connection.cursor() as cursor:
             # Read a single record
-            sql = "SELECT * FROM `author` WHERE `A_FNAME`=%s LIMIT=1"
+            sql = "SELECT * FROM `authors` WHERE `A_FNAME`=%s LIMIT=1"
             cursor.execute(sql, (author_name,))
             result = cursor.fetchone()
             return result
@@ -46,7 +46,7 @@ class AuthorRepository():
 
     def search(self, query):
         with self.connection.cursor() as cursor:
-            sql = "SELECT * FROM `Author` WHERE `A_FNAME` LIKE %s OR `A_LNAME` LIKE %s"
+            sql = "SELECT * FROM `authors` WHERE `A_FNAME` LIKE %s OR `A_LNAME` LIKE %s"
             like_query = f"%{query}%"
             cursor.execute(sql, (like_query, like_query,))
             result = cursor.fetchall()

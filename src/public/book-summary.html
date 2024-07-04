@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Library System</h1>
+    
+    <h2>Books Summary</h2>
+    <table id="books-summary">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author ID</th>
+                <th>Publisher</th>
+                <th>Publication Date</th>
+                <th>Subject</th>
+                <th>Unit Prize</th>
+                <th>Stock</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Book rows will be appended here by JavaScript -->
+        </tbody>
+    </table>
+    
+    <h2>Book Details</h2>
+    <div id="book-details">
+        <!-- Book details will be displayed here -->
+    </div>
+
+    <script>
+        const apiBaseUrl = 'https://8000-bajoski34-industrialres-w7n4xxtpp9e.ws-eu115.gitpod.io';
+        $(document).ready(function() {
+            // Fetch and display the list of books
+            $.get(`${apiBaseUrl}/books`, function(data) {
+                var books = data.data;
+                books.forEach(function(book) {
+                    var row = `<tr>
+                        <td>${book.B_ID}</td>
+                        <td>${book.B_TITLE}</td>
+                        <td>${book.B_A_ID}</td>
+                        <td>${book.B_PUBLISHER}</td>
+                        <td>${book.B_PUB_DATE}</td>
+                        <td>${book.B_SUBJECT}</td>
+                        <td>${book.B_UNIT_PRIZE}</td>
+                        <td>${book.B_STOCK}</td>
+                        <td><button onclick="viewBookDetails(${book.B_ID})">View Details</button></td>
+                    </tr>`;
+                    $("#books-summary tbody").append(row);
+                });
+            });
+        });
+
+        function viewBookDetails(bookId) {
+            // Fetch and display the details of the selected book
+            $.get(`${apiBaseUrl}/books/${bookId}`, function(data) {
+                var book = data.data;
+                var details = `<p>ID: ${book.B_ID}</p>
+                    <p>Title: ${book.B_TITLE}</p>
+                    <p>Author ID: ${book.B_A_ID}</p>
+                    <p>Publisher: ${book.B_PUBLISHER}</p>
+                    <p>Publication Date: ${book.B_PUB_DATE}</p>
+                    <p>Subject: ${book.B_SUBJECT}</p>
+                    <p>Unit Prize: ${book.B_UNIT_PRIZE}</p>
+                    <p>Stock: ${book.B_STOCK}</p>`;
+                $("#book-details").html(details);
+            });
+        }
+    </script>
+</body>
+</html>

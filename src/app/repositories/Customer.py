@@ -6,7 +6,7 @@ class CustomerRepository():
 
     def ifExists(self, name):
         with self.connection.cursor() as cursor:
-            sql = "SELECT COUNT(*) FROM `customers` WHERE `C_NAME`=%s LIMIT=1"
+            sql = "SELECT COUNT(*) FROM `customers` WHERE `C_NAME`=%s LIMIT 1"
             cursor.execute(sql, (name, address,))
             result = cursor.fetchone()
             return result['COUNT(*)'] > 0
@@ -22,7 +22,7 @@ class CustomerRepository():
     def find(self, customer_id):
         with self.connection.cursor() as cursor:
             # Read a single record
-            sql = "SELECT * FROM `customers` WHERE `C_ID`=%s LIMIT=1"
+            sql = "SELECT * FROM `customers` WHERE `C_ID`=%s LIMIT 1"
             cursor.execute(sql, (customer_id,))
             result = cursor.fetchone()
             return result
@@ -30,7 +30,7 @@ class CustomerRepository():
     def findByName(self, customer_name):
         with self.connection.cursor() as cursor:
             # Read a single record
-            sql = "SELECT * FROM `customers` WHERE `C_NAME`=%s LIMIT=1"
+            sql = "SELECT * FROM `customers` WHERE `C_NAME`=%s LIMIT 1"
             cursor.execute(sql, (customer_name,))
             result = cursor.fetchone()
             return result
