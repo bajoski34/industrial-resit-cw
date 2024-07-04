@@ -1,0 +1,12 @@
+POST https://8000-bajoski34-industrialres-w7n4xxtpp9e.ws-eu115.gitpod.io/books HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Running a train station.", 
+    "author_id": 10, 
+    "publisher":"Abraham John ", 
+    "publication_date": "Wed, 21 Oct 2015 18:27:50 GMT", 
+    "subject": "Science", 
+    "unit_prize": 4.99,
+    "stock": 20,
+}
