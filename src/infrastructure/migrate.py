@@ -11,13 +11,13 @@ def execute_sql_file(cursor, file_path):
 
 def main():
     print(os.curdir)
-    migration_dir = 'src/infrastructure/migrations'
+    migration_dir = 'infrastructure/migrations'
     migration_files = sorted(
         [f for f in os.listdir(migration_dir) if f.endswith('.sql')],
         key=lambda x: x.split('_')[0]
     )
 
-    connection = pymysql.connect(host='localhost',
+    connection = pymysql.connect(host='bk_mysql',
                              user='bk_store_admin',
                              password='admin',
                              database='bk_store',
