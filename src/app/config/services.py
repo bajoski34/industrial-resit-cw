@@ -1,9 +1,11 @@
 import pymysql.cursors
 # Database connection settings
+
 db_config = {
+    'host': 'bk_mysql',
+    'port': 3306,
     'user': 'bk_store_admin',
     'password': 'admin',
-    'host': 'localhost',
     'database': 'bk_store'
 }
 
